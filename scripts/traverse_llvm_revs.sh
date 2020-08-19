@@ -11,8 +11,7 @@ set -e
 set -o pipefail
 
 BRANCH="${BRANCH:-main}"
-SUBMODULE_DIR="${1?}"
-shift
+SUBMODULE_DIR="third_party/llvm-project"
 
 pushd "${SUBMODULE_DIR?}"
 START="$(git rev-parse HEAD)"

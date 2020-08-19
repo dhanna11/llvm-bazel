@@ -6,7 +6,7 @@ name: Auto Integrate
 
 on:
   push:
-    branches: [main]
+    branches: [main, rev-traversal]
 
 jobs:
   auto_integrate:

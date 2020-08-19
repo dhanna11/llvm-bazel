@@ -16,7 +16,13 @@ jobs:
       INTEGRATION_BRANCH: "auto-integrate"
     steps:
       - name: Installing dependencies
-        run: python3 -m pip install google-pasta
+        env:
+          BUILDIFIER_VERSION: "3.4.0"
+        run: |
+          python3 -m pip install google-pasta
+          sudo wget "https://github.com/bazelbuild/buildtools/releases/download/${BUILDIFIER_VERSION?}/buildifier" -O /usr/bin/buildifier
+          sudo chmod +x /usr/bin/buildifier
+          buildifier --version
       - name: Checking out repository
         uses: actions/checkout@v2
         with:

@@ -6,6 +6,7 @@
 
 set -e
 set -o pipefail
+set -x
 
 SUBMODULE_DIR="third_party/llvm-project"
 
@@ -18,6 +19,8 @@ python3 ./llvm-bazel/generate_bazel_build.py \
 
 SHORT_COMMIT="$(echo ${LLVM_COMMIT?} | cut -c -12)"
 
-git commit -am "Integrate LLVM at llvm/llvm-project@${SHORT_COMMIT?}"
+if ! git diff --exit-code; then
+  git commit -am "Integrate LLVM at llvm/llvm-project@${SHORT_COMMIT?}"
+fi
 
 git tag -f "llvm-project-${LLVM_COMMIT?}"

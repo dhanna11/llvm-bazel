@@ -1,0 +1,45 @@
+# This file is licensed under the Apache License v2.0 with LLVM Exceptions.
+# See https://llvm.org/LICENSE.txt for license information.
+# SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+
+name: Auto Integrate
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  auto_integrate:
+    runs-on: ubuntu-18.04
+    env:
+      MERGING_BRANCH: ${{ github.ref }}
+      INTEGRATION_BRANCH: "auto-integrate"
+    steps:
+      - name: Installing dependencies
+        run: python3 -m pip install google-pasta
+      - name: Checking out repository
+        uses: actions/checkout@v2
+        with:
+          # Get all history. Unfortunately necessary for what we need to do.
+          fetch-depth: 0
+          submodules: true
+          ref: ${{ env.MERGING_BRANCH }}
+      - name: Fetching integration branch
+        run: |
+          git fetch --no-tags --prune origin "${INTEGRATION_BRANCH?}:${INTEGRATION_BRANCH?}"
+      - name: Setting git config
+        run: |
+          git config --local user.email "llvm-bazel-github-actions-bot@google.com"
+          git config --local user.name "Auto Integrate Action"
+      - name: Merging in changes
+        run: |
+          ./scripts/clobber_merge.sh "${INTEGRATION_BRANCH?}" "${MERGING_BRANCH?}"
+          git submodule update
+      - name: Running auto integration
+        run: scripts/auto_integrate.sh
+      - name: Pushing changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ env.INTEGRATION_BRANCH }}
+          tags: true

@@ -4,8 +4,9 @@
 # See https://llvm.org/LICENSE.txt for license information.
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
-# Walks commits in the submodule between the current state and the tip of the
-# $BRANCH (default "main") on the remote and calls the specified command.
+# Walks commits in the llvm-project submodule at SUBMODULE_DIR (default
+# "third_party/llvm-project") between the current state and the tip of the
+# $BRANCH (default "master") on the remote and calls the specified command.
 
 set -e
 set -o pipefail

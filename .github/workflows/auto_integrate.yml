@@ -12,7 +12,7 @@ jobs:
   auto_integrate:
     runs-on: ubuntu-18.04
     env:
-      MERGING_BRANCH: ${{ github.ref }}
+      MERGING_BRANCH: "rev-traversal"
       INTEGRATION_BRANCH: "auto-integrate"
     steps:
       - name: Installing dependencies
@@ -43,3 +43,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ env.INTEGRATION_BRANCH }}
           tags: true
+          force: true

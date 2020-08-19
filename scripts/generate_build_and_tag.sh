@@ -6,6 +6,7 @@
 
 set -e
 set -o pipefail
+set -x
 
 SUBMODULE_DIR="third_party/llvm-project"
 

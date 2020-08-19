@@ -11,7 +11,7 @@
 set -e
 set -o pipefail
 
-BRANCH="${BRANCH:-main}"
+BRANCH="${BRANCH:-master}"
 SUBMODULE_DIR="third_party/llvm-project"
 
 pushd "${SUBMODULE_DIR?}"
